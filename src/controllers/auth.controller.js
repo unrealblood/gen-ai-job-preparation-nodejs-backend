@@ -72,6 +72,10 @@ export async function login(req, res) {
 export async function logout(req, res) {
     const token = req.cookies.token;
 
+    if(!token) {
+        return res.status(400).json({message: "token not found"});
+    }
+
     try {
         jwt.verify(token, process.env.JWT_SECRET);
 
