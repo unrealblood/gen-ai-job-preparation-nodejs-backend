@@ -1,0 +1,23 @@
+{
+  "name": "gen-ai-job-preparation-nodejs-backend",
+  "version": "1.0.0",
+  "description": "\"This project is designed to simulate a real-world product where users can upload their resumes, analyze job descriptions, detect skill gaps, and generate AI-powered interview questions and ATS-optimized resumes.\"",
+  "homepage": "https://github.com/unrealblood/gen-ai-job-preparation-nodejs-backend#readme",
+  "bugs": {
+    "url": "https://github.com/unrealblood/gen-ai-job-preparation-nodejs-backend/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/unrealblood/gen-ai-job-preparation-nodejs-backend.git"
+  },
+  "author": "Shubham Singh",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "dotenv": "^18.0.4",
+    "express": "^5.2.1"
+  }
+}
