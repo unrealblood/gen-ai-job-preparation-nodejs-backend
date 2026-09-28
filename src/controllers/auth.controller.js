@@ -1,6 +1,7 @@
 import { connectAndGetMongoDbClient } from "../db/db.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { ObjectId } from "mongodb";
 
 export async function registerUser(req, res) {
     const { name, email, password } = req.body;
@@ -77,5 +78,26 @@ export async function logout(req, res) {
     }
     catch(error) {
         return res.status(400).json({message: error.message});
+    }
+}
+
+export async function getMe(req, res) {
+    const client = await connectAndGetMongoDbClient();
+
+    try {
+        const db = client.db();
+
+        const user = await db.collection("users").findOne({_id: ObjectId.createFromHexString(req.user.id)});
+
+        return res.status(200).json({message: "get user successfull", user: {
+            ...user,
+            _id: user._id.toString()
+        }});
+    }
+    catch(error) {
+        return res.status(400).json({message: error.message});
+    }
+    finally {
+        await client.close();
     }
 }

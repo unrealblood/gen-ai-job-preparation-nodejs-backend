@@ -9,3 +9,5 @@ authRouter.post("/register-user", authController.registerUser);
 authRouter.post("/login", authController.login);
 
 authRouter.get("/logout", authController.logout);
+
+authRouter.get("/get-me", authMiddleware.authUser, authController.getMe);
