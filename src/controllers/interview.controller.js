@@ -23,9 +23,9 @@ export async function generateInterviewReportController(req, res) {
     try {
         const db = client.db();
 
-        await db.collection("interviewReports").insertOne({...interviewReport, userId: ObjectId.createFromHexString(req.user.id)});
+        const result = await db.collection("interviewReports").insertOne({...interviewReport, userId: ObjectId.createFromHexString(req.user.id)});
 
-        return res.status(201).json({message: "Interview report generated successfully", result: interviewReport});
+        return res.status(201).json({message: "Interview report generated successfully", result: {...interviewReport, _id: result.insertedId.toString()}});
     }
     catch(error) {
         console.log(error.message);
@@ -51,7 +51,7 @@ export async function getInterviewReportById(req, res) {
             })
         }
 
-        return res.status(200).json({message: "get interview report by id successfull", interviewReport: {...interviewReport, _id: interviewId._id.toString(), userId: interviewReport.userId.toString()}});
+        return res.status(200).json({message: "get interview report by id successfull", interviewReport: {...interviewReport, _id: interviewReport._id.toString(), userId: interviewReport.userId.toString()}});
     }
     catch(error) {
         console.log(error.message);
