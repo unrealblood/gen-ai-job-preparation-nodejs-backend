@@ -28,7 +28,7 @@ export async function generateInterviewReportController(req, res) {
         return res.status(201).json({message: "Interview report generated successfully", result: {...interviewReport, _id: result.insertedId.toString()}});
     }
     catch(error) {
-        console.log(error.message);
+        return res.status(400).json({message: error.message});
     }
     finally {
         await client.close();
@@ -37,6 +37,10 @@ export async function generateInterviewReportController(req, res) {
 
 export async function getInterviewReportById(req, res) {
     const { interviewId } = req.params;
+
+    if (!interviewId || !ObjectId.isValid(interviewId)) {
+        return res.status(400).json({ message: "Invalid interview ID format." });
+    }
 
     const client = await connectAndGetMongoDbClient();
 
@@ -54,7 +58,7 @@ export async function getInterviewReportById(req, res) {
         return res.status(200).json({message: "get interview report by id successfull", interviewReport: {...interviewReport, _id: interviewReport._id.toString(), userId: interviewReport.userId.toString()}});
     }
     catch(error) {
-        console.log(error.message);
+        return res.status(400).json({message: error.message});
     }
     finally {
         await client.close();
@@ -72,7 +76,7 @@ export async function getAllInterviewReportByUserId(req, res) {
         return res.status(200).json({message: "get all interview reports by userId successfull", interviewReports: interviewReports.map((ir) => ({...ir, _id: ir._id.toString(), userId: ir.userId.toString()}))});
     }
     catch(error) {
-        console.log(error.message);
+        return res.status(400).json({message: error.message});
     }
     finally {
         await client.close();

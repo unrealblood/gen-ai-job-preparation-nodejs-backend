@@ -49,13 +49,13 @@ export async function login(req, res) {
     await client.close();
     
     if(!user) {
-        return res.status(400).json({message: "Invalid email or password"});
+        return res.status(401).json({message: "Invalid email or password"});
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if(!isPasswordValid) {
-        return res.status(400).json({message: "Invalid email or password"});
+        return res.status(401).json({message: "Invalid email or password"});
     }
 
     const token = jwt.sign({id: user._id.toString()}, process.env.JWT_SECRET);
@@ -67,7 +67,7 @@ export async function login(req, res) {
         expiresIn: 7 * 24 * 60 * 60 * 1000 // 7 days
     });
 
-    return res.status(200).json({message: "login successfull", user: {...user, _id: user._id.toString()}});
+    return res.status(200).json({message: "login successfull", user: {_id: user._id.toString(), name: user.name, email: user.email}});
 }
 
 export async function logout(req, res) {
