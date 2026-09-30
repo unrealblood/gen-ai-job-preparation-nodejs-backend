@@ -72,7 +72,10 @@ export async function login(req, res) {
 
 export async function logout(req, res) {
     try {
-        res.clearCookie("token");
+        res.clearCookie("token", {
+            secure: true,
+            sameSite: "none",
+        });
 
         return res.status(200).json({message: "logged out successfully"});
     }
